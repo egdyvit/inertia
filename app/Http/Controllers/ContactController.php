@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
+use App\Http\Requests\Contact\StoreRequest;
+use App\Models\contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
-class ContactController extends Controller
+class contactController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Inertia::render('contact/index');
+        $contacts = contact::where('user_id', Auth::user()->id)->get();
+        return Inertia::render('contact/index', compact('contacts'));
     }
 
     /**
@@ -27,9 +30,22 @@ class ContactController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $data = $request->except('avatar');
+
+        if($request->hasFile('avatar')){
+            $file=$request->file('avatar');
+            $routeName= $file->store('avatars', ['disk' => 'public']);
+            $data['avatar'] = $routeName;
+        }
+
+        $data ['user_id'] = Auth::user()->id;
+
+        Contact::create($data);
+
+        return to_route('contact.index');
+
     }
 
     /**
@@ -45,7 +61,7 @@ class ContactController extends Controller
      */
     public function edit(Contact $contact)
     {
-        //
+        return Inertia::render('contact/edit', compact('contact'));
     }
 
     /**

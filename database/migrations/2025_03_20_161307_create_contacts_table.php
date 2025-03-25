@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100);
             $table->string('phone', 50);
-            $table->string('avarat')->nullable();
+            $table->string('avatar')->nullable();
             $table->enum('privacity',['public','private'])->default('private');
             $table->foreignId('user_id')->constrained();
             $table->timestamps();

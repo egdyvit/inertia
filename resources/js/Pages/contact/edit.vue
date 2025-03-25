@@ -1,11 +1,15 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, Link, useForm} from '@inertiajs/vue3';
+import { Head, Link, useForm, usePage} from '@inertiajs/vue3';
 import InputLabel from '@/Components/InputLabel.vue';
 import TextInput from '@/Components/TextInput.vue';
 import InputError from '@/Components/InputError.vue';
 import FileInput from '@/Components/FileInput .vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
+
+const page = usePage()
+
+console.log(page.props)
 
 const initialValues= {
     name:"",
@@ -34,13 +38,13 @@ const submit = () => {
 
 <template>
 
-    <Head title="Crear Contacto" />
+    <Head title="Actualizar Contacto" />
 
     <AuthenticatedLayout>
         <template #header>
             <div class="flex justify-between">
 
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Crear Contacto</h2>
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Actualizar Contacto</h2>
 
                 <Link :href="route('contact.create')">Lista de Contactos</Link>
 
@@ -91,7 +95,7 @@ const submit = () => {
                             <InputError class="mt-2" :message="form.errors.privacity" />
                         </div>
                         <div class="flex justify-center">
-                            <PrimaryButton>Crear Contacto</PrimaryButton>
+                            <PrimaryButton>Actualizar Contacto</PrimaryButton>
                         </div>
                     </form>
                 </div>
