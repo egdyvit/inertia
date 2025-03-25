@@ -36,7 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::prefix('dashboard')->group(function(){
+Route::prefix('dashboard')->middleware('auth')->group(function(){
     Route::get('contacts', [contactController::class, 'index'])->name('contact.index');
     Route::get('contacts/create', [contactController::class, 'create'])->name('contact.create');
     Route::post('contacts', [contactController::class, 'store'])->name('contact.store');
