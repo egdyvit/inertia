@@ -1,9 +1,14 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link, usePage} from '@inertiajs/vue3';
+import { ref } from 'vue';
 
 const page = usePage();
-const contacts = page.props.contacts;
+const contacts = ref(page.props.contacts)
+
+const onDeleteSucces = (e) => {
+    contacts.value = e.props.contacts;
+}
 
 </script>
 
@@ -54,11 +59,20 @@ const contacts = page.props.contacts;
                                     <td class="px-6 py-4 text-sm">{{ contact.name }}</td>
                                     <td class="px-6 py-4 text-sm">{{ contact.phone }}</td>
                                     <td class="px-6 py-4 text-sm">{{ contact.privacity }}</td>
-                                    <td class="px-6 py-4 text-sm"><img class="h-16" :src="`/storage/${contact.avatar}`"/></td>
                                     <td class="px-6 py-4 text-sm">
                                         <div>
+                                            <div v-if="!contact.avatar">Avatar sin Asignar</div>
+                                            <div v-else><img class="h-16" :src="`/storage/${contact.avatar}`"/></div>
+                                        </div>
+
+                                    </td>
+                                    <td class="px-6 py-4 text-sm">
+                                        <div class="space-x-4">
                                             <Link :href="route('contact.edit', contact)">
                                                 Editar
+                                            </Link>
+                                            <Link @success="onDeleteSucces" :href="route('contact.destroy', contact)" method="delete" as="button">
+                                                Eliminar
                                             </Link>
                                         </div>
                                     </td>
